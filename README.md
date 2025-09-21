@@ -4,6 +4,8 @@ A simple .NET algorithm for creating full-text indexes across any provided text 
 
 ## Features
 
+- **Fluent IndexBuilder API**: New intuitive API for creating and managing search indexes with method chaining
+- **Save/Load Functionality**: Serialize indexes to JSON files for persistence and later loading
 - **Extensible Architecture**: Plugin-based design using interfaces for different data sources
 - **Multiple Data Sources**: Built-in support for files and tables (mock implementation)
 - **Full-Text Search**: TF-IDF based scoring with inverted index for fast searching
@@ -13,7 +15,34 @@ A simple .NET algorithm for creating full-text indexes across any provided text 
 
 ## Quick Start
 
-### Basic Usage
+### Using the Fluent IndexBuilder API (Recommended)
+
+The new fluent IndexBuilder API provides an elegant way to create and manage search indexes:
+
+```csharp
+using EasyIndex;
+
+// Create and build an index with fluent API
+var searchEngine = await IndexBuilder.Create()
+    .AddPath("/path/to/documents", PathType.File)
+    .WithMetadata("Department", "Engineering")
+    .AddPath("server.database.table", PathType.Table)
+    .WithMetadata("Source", "Database")
+    .BuildAsync();
+
+// Search the index
+var results = searchEngine.Search("machine learning", maxResults: 10);
+
+// Save index to file
+var builder = IndexBuilder.Create();
+var engine = await builder.AddPath("/docs", PathType.File).BuildAsync();
+await builder.SaveToFileAsync("index.json");
+
+// Load index from file
+var loadedEngine = await IndexBuilder.LoadFromFileAsync("index.json");
+```
+
+### Basic Usage (Original API)
 
 ```csharp
 using EasyIndex;
@@ -75,18 +104,35 @@ new IndexPath { Path = "connection_string|table_name", Type = PathType.Table }
 Add custom metadata to paths that will be preserved in indexed documents:
 
 ```csharp
-var path = new IndexPath 
-{ 
-    Path = "/documents", 
-    Type = PathType.File,
-    Metadata = new Dictionary<string, object>
-    {
-        ["Department"] = "Engineering",
-        ["Priority"] = "High",
-        ["IndexedDate"] = DateTime.UtcNow
-    }
-};
+var engine = await IndexBuilder.Create()
+    .AddPath("/documents", PathType.File)
+    .WithMetadata("Department", "Engineering")
+    .WithMetadata("Priority", "High")
+    .WithMetadata("IndexedDate", DateTime.UtcNow)
+    .BuildAsync();
 ```
+
+### Save and Load Indexes
+
+The IndexBuilder API supports saving indexes to JSON files and loading them later:
+
+```csharp
+// Build and save an index
+var builder = IndexBuilder.Create();
+var engine = await builder
+    .AddPath("/documents", PathType.File)
+    .WithMetadata("Source", "FileSystem")
+    .AddPath("database.table", PathType.Table)
+    .BuildAsync();
+
+await builder.SaveToFileAsync("my_index.json");
+
+// Load the index later
+var loadedEngine = await IndexBuilder.LoadFromFileAsync("my_index.json");
+var results = loadedEngine.Search("search term");
+```
+
+**Note**: The saved index includes all document content and metadata, but not the original path configurations. To re-index from sources, you'll need to use the original paths.
 
 ## Architecture
 
@@ -133,6 +179,17 @@ The library uses a simplified TF-IDF (Term Frequency-Inverse Document Frequency)
 ## API Reference
 
 ### Classes
+
+#### `IndexBuilder` (New Fluent API)
+- `IndexBuilder.Create()`: Static factory method to create a new builder
+- `AddPath(string path, PathType type)`: Add a single path to index
+- `AddPaths(IEnumerable<IndexPath> paths)`: Add multiple paths to index
+- `WithMetadata(string key, object value)`: Add metadata to the last added path
+- `WithMetadata(Dictionary<string, object> metadata)`: Add multiple metadata entries
+- `RegisterProcessor(IPathProcessor processor)`: Register custom path processor
+- `BuildAsync(CancellationToken cancellationToken = default)`: Build the search index
+- `SaveToFileAsync(string filePath)`: Save the index to a JSON file
+- `IndexBuilder.LoadFromFileAsync(string filePath)`: Static method to load index from JSON file
 
 #### `SearchIndexEngine`
 - `IndexAsync(IEnumerable<IndexPath> paths)`: Index content from specified paths
