@@ -26,15 +26,15 @@ try
     // Create index paths
     var paths = new[]
     {
-        new IndexPath 
-        { 
-            Path = tempDir, 
+        new IndexPath
+        {
+            Path = tempDir,
             Type = PathType.File,
             Metadata = new Dictionary<string, object> { ["Source"] = "Demo Files" }
         },
-        new IndexPath 
-        { 
-            Path = "demo.database.schema.articles", 
+        new IndexPath
+        {
+            Path = "demo.database.schema.articles",
             Type = PathType.Table,
             Metadata = new Dictionary<string, object> { ["Source"] = "Demo Database" }
         }
