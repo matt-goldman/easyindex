@@ -26,7 +26,7 @@ public class TablePathProcessorTests
 
         // Assert
         Assert.NotEmpty(documents);
-        Assert.All(documents, doc => 
+        Assert.All(documents, doc =>
         {
             Assert.Equal(PathType.Table, doc.SourceType);
             Assert.Equal("server.database.schema.table", doc.SourcePath);
@@ -49,9 +49,9 @@ public class TablePathProcessorTests
     public async Task ProcessAsync_WithMetadata_ShouldMergeMetadata()
     {
         // Arrange
-        var indexPath = new IndexPath 
-        { 
-            Path = "test.table", 
+        var indexPath = new IndexPath
+        {
+            Path = "test.table",
             Type = PathType.Table,
             Metadata = new Dictionary<string, object> { ["CustomKey"] = "CustomValue" }
         };

@@ -16,7 +16,7 @@ public class SearchIndexEngine
         _processors = new Dictionary<PathType, IPathProcessor>();
         _documents = new List<IndexedDocument>();
         _invertedIndex = new Dictionary<string, HashSet<string>>();
-        
+
         // Register default processors
         RegisterProcessor(new FilePathProcessor());
         RegisterProcessor(new TablePathProcessor());
@@ -68,7 +68,7 @@ public class SearchIndexEngine
                 foreach (var docId in documentIds)
                 {
                     var document = _documents.First(d => d.Id == docId);
-                    
+
                     if (!documentScores.ContainsKey(docId))
                     {
                         documentScores[docId] = (document, 0.0, new HashSet<string>());
@@ -79,7 +79,7 @@ public class SearchIndexEngine
                     var termFrequency = CountTermOccurrences(document.Content.ToLowerInvariant(), term);
                     var inverseDocumentFrequency = Math.Log((double)_documents.Count / documentIds.Count);
                     var score = termFrequency * inverseDocumentFrequency;
-                    
+
                     current.matchedTerms.Add(term);
                     documentScores[docId] = (current.doc, current.score + score, current.matchedTerms);
                 }
@@ -113,7 +113,7 @@ public class SearchIndexEngine
         foreach (var document in documents)
         {
             var tokens = TokenizeText(document.Content.ToLowerInvariant());
-            
+
             foreach (var token in tokens.Distinct())
             {
                 if (!_invertedIndex.ContainsKey(token))
@@ -131,7 +131,7 @@ public class SearchIndexEngine
         var tokens = Regex.Split(text, @"\W+")
             .Where(token => !string.IsNullOrWhiteSpace(token) && token.Length > 2)
             .ToList();
-        
+
         return tokens;
     }
 

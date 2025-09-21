@@ -46,7 +46,7 @@ public class FilePathProcessorTests : IDisposable
         // Arrange
         var file1 = Path.Combine(_tempDirectory, "test1.txt");
         var file2 = Path.Combine(_tempDirectory, "test2.md");
-        
+
         await File.WriteAllTextAsync(file1, "Content of file 1");
         await File.WriteAllTextAsync(file2, "Content of file 2");
 
@@ -87,9 +87,9 @@ public class FilePathProcessorTests : IDisposable
         var testFile = Path.Combine(_tempDirectory, "test.txt");
         await File.WriteAllTextAsync(testFile, "Test content");
 
-        var indexPath = new IndexPath 
-        { 
-            Path = testFile, 
+        var indexPath = new IndexPath
+        {
+            Path = testFile,
             Type = PathType.File,
             Metadata = new Dictionary<string, object> { ["CustomKey"] = "CustomValue" }
         };

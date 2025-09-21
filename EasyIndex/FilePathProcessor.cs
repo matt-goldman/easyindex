@@ -48,14 +48,14 @@ public class FilePathProcessor : IPathProcessor
     private async Task ProcessDirectoryAsync(string directoryPath, List<IndexedDocument> documents, CancellationToken cancellationToken)
     {
         var supportedExtensions = new[] { ".txt", ".md", ".csv", ".json", ".xml", ".log" };
-        
+
         var files = Directory.GetFiles(directoryPath, "*.*", SearchOption.AllDirectories)
             .Where(file => supportedExtensions.Contains(Path.GetExtension(file).ToLowerInvariant()));
 
         foreach (var file in files)
         {
             cancellationToken.ThrowIfCancellationRequested();
-            
+
             var document = await ProcessFileAsync(file, cancellationToken);
             if (document != null)
             {
@@ -69,7 +69,7 @@ public class FilePathProcessor : IPathProcessor
         try
         {
             var content = await File.ReadAllTextAsync(filePath, Encoding.UTF8, cancellationToken);
-            
+
             return new IndexedDocument
             {
                 Id = Guid.NewGuid().ToString(),
