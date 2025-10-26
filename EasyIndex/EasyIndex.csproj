@@ -1,9 +1,37 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-  </PropertyGroup>
+    <PackageId>EasyIndex</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Matt Goldman</Authors>
+    <Description>A simple .NET algorithm for creating full-text indexes</Description>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>EasyIndex</Title>
+    <Copyright>Matt Goldman 2025</Copyright>
+    <PackageProjectUrl>https://github.com/matt-goldman/easyindex</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/matt-goldman/easyindex</RepositoryUrl>
+    <PackageTags>index; full-text; search;</PackageTags>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+	  <PackageIcon>icon.png</PackageIcon>
+  	</PropertyGroup>
+
+    <ItemGroup>
+      <None Include="..\assets\icon.png" Pack="true" PackagePath="" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="..\LICENSE">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+      <None Include="..\README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
+    </ItemGroup>
 
 </Project>

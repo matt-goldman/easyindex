@@ -181,6 +181,7 @@ The library uses a simplified TF-IDF (Term Frequency-Inverse Document Frequency)
 ### Classes
 
 #### `IndexBuilder` (New Fluent API)
+
 - `IndexBuilder.Create()`: Static factory method to create a new builder
 - `AddPath(string path, PathType type)`: Add a single path to index
 - `AddPaths(IEnumerable<IndexPath> paths)`: Add multiple paths to index
@@ -192,6 +193,7 @@ The library uses a simplified TF-IDF (Term Frequency-Inverse Document Frequency)
 - `IndexBuilder.LoadFromFileAsync(string filePath)`: Static method to load index from JSON file
 
 #### `SearchIndexEngine`
+
 - `IndexAsync(IEnumerable<IndexPath> paths)`: Index content from specified paths
 - `Search(string query, int maxResults = 10)`: Search indexed content
 - `GetAllDocuments()`: Retrieve all indexed documents
@@ -199,11 +201,13 @@ The library uses a simplified TF-IDF (Term Frequency-Inverse Document Frequency)
 - `RegisterProcessor(IPathProcessor processor)`: Add custom processor
 
 #### `IndexPath`
+
 - `Path`: Source path or identifier
 - `Type`: Type of path (File, Table, etc.)
 - `Metadata`: Additional metadata to attach
 
 #### `IndexedDocument`
+
 - `Id`: Unique document identifier
 - `Content`: Full text content
 - `SourcePath`: Original source location
@@ -211,6 +215,7 @@ The library uses a simplified TF-IDF (Term Frequency-Inverse Document Frequency)
 - `Metadata`: Document metadata
 
 #### `SearchResult`
+
 - `Document`: The matched document
 - `Score`: Relevance score
 - `MatchedTerms`: Terms that matched the query
@@ -231,7 +236,7 @@ dotnet run
 
 ## Requirements
 
-- .NET 8.0 or later
+- .NET 9.0 or later
 - No external dependencies for core functionality
 
 ## License
